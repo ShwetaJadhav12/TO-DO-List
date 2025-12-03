@@ -1,25 +1,34 @@
 import React from "react";
 
 function App() {
-  const [Listname, onNameChange] = React.useState("");
-  function handleChange(event) {
-    onNameChange(event.target.value);
+  const [inputText, setInputText] = React.useState("");
+  // array intialized kela
+  const [items, setItems] = React.useState([]);
+  function handleTextInput(event) {
+    setInputText(event.target.value);
   }
+  function addItem() {
+    if (inputText.trim() === "") return; // prevent empty items
 
+    setItems((prevItems) => [...prevItems, inputText]);
+    setInputText(""); // clear input
+  }
   return (
     <div className="container">
       <div className="heading">
         <h1>To-Do List</h1>
       </div>
       <div className="form">
-        <input type="text" onChange={handleChange} value={Listname} />
-        <button onClick={handleChange}>
+        <input type="text" onChange={handleTextInput} value={inputText} />
+        <button onClick={addItem}>
           <span>Add</span>
         </button>
       </div>
       <div>
         <ul>
-          <li>{Listname}</li>
+          {items.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
         </ul>
       </div>
     </div>
